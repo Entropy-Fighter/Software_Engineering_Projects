@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.</declaration>
+	<template>
+		<name x="5" y="5">ATM</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-662" y="-272">
+			<name x="-790" y="-314">Insert card page</name>
+		</location>
+		<location id="id1" x="-807" y="-272">
+		</location>
+		<location id="id2" x="-739" y="-212">
+			<name x="-798" y="-221">submit</name>
+		</location>
+		<location id="id3" x="-739" y="-94">
+			<name x="-790" y="-102">Login</name>
+		</location>
+		<location id="id4" x="-544" y="-94">
+			<name x="-603" y="-85">Main page</name>
+		</location>
+		<location id="id5" x="-543" y="-213">
+			<name x="-603" y="-247">Show balance</name>
+		</location>
+		<location id="id6" x="-407" y="-213">
+			<name x="-475" y="-221">Withdraw</name>
+		</location>
+		<location id="id7" x="-322" y="-340">
+			<name x="-348" y="-374">Cash appear</name>
+		</location>
+		<location id="id8" x="-212" y="-94">
+			<name x="-297" y="-119">Change PIN</name>
+		</location>
+		<location id="id9" x="-102" y="-94">
+		</location>
+		<location id="id10" x="34" y="-94">
+		</location>
+		<location id="id11" x="-102" y="-18">
+		</location>
+		<location id="id12" x="-186" y="93">
+			<name x="-169" y="67">Transfer</name>
+		</location>
+		<location id="id13" x="-544" y="93">
+			<name x="-612" y="85">Deposit</name>
+		</location>
+		<location id="id14" x="-68" y="93">
+		</location>
+		<location id="id15" x="43" y="93">
+		</location>
+		<location id="id16" x="43" y="161">
+		</location>
+		<location id="id17" x="136" y="93">
+		</location>
+		<location id="id18" x="-68" y="161">
+		</location>
+		<location id="id19" x="-399" y="161">
+			<name x="-382" y="152">Put cash</name>
+		</location>
+		<branchpoint id="id20" x="-544" y="161">
+		</branchpoint>
+		<branchpoint id="id21" x="-450" y="93">
+		</branchpoint>
+		<branchpoint id="id22" x="-102" y="161">
+		</branchpoint>
+		<branchpoint id="id23" x="9" y="161">
+		</branchpoint>
+		<branchpoint id="id24" x="136" y="161">
+		</branchpoint>
+		<branchpoint id="id25" x="-212" y="-18">
+		</branchpoint>
+		<branchpoint id="id26" x="34" y="-18">
+		</branchpoint>
+		<branchpoint id="id27" x="-407" y="-306">
+		</branchpoint>
+		<branchpoint id="id28" x="-679" y="-94">
+		</branchpoint>
+		<branchpoint id="id29" x="-739" y="-153">
+		</branchpoint>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id19"/>
+			<label kind="select" x="-518" y="195">Fake banknote</label>
+			<nail x="-544" y="212"/>
+			<nail x="-399" y="212"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id20"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id13"/>
+			<label kind="select" x="-637" y="136">Real banknote</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id19"/>
+			<label kind="select" x="-433" y="102">Valid</label>
+			<nail x="-399" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id13"/>
+			<label kind="select" x="-527" y="110">Invalid</label>
+			<nail x="-450" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id21"/>
+			<label kind="select" x="-527" y="76">set amount</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id13"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id12"/>
+			<label kind="select" x="-212" y="161">Correct PIN</label>
+			<nail x="-229" y="161"/>
+			<nail x="-229" y="93"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id12"/>
+			<label kind="select" x="-195" y="127">Incorrect PIN</label>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id12"/>
+			<label kind="select" x="-102" y="127">Invalid account</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id22"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id18"/>
+			<label kind="select" x="-59" y="161">Valid account</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id23"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id15"/>
+			<label kind="select" x="60" y="119">Invalid value</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id16"/>
+			<label kind="select" x="60" y="161">Valid value</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id24"/>
+			<label kind="select" x="144" y="119">submit</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id17"/>
+			<label kind="select" x="68" y="93">Value</label>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id15"/>
+			<label kind="select" x="-25" y="93">PIN</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id14"/>
+			<label kind="select" x="-153" y="93">Account</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id4"/>
+			<label kind="select" x="-204" y="25">return</label>
+			<nail x="-187" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id12"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="select" x="-255" y="-170">return</label>
+			<nail x="-212" y="-145"/>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id8"/>
+			<label kind="select" x="-280" y="-60">Valid PIN</label>
+			<nail x="-263" y="-18"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id25"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id11"/>
+			<label kind="select" x="-59" y="-18">Identical</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id8"/>
+			<label kind="select" x="-204" y="-60">Invalid PIN</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id8"/>
+			<label kind="select" x="-76" y="-68">Not identical</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id26"/>
+			<label kind="select" x="43" y="-68">submit</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="select" x="-85" y="-111">Confirm new PIN</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="select" x="-195" y="-111">Set new PIN</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id8"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="select" x="-382" y="-238">Take cash away</label>
+			<nail x="-322" y="-213"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="select" x="-433" y="-187">return</label>
+			<nail x="-382" y="-179"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id7"/>
+			<label kind="select" x="-390" y="-357">Valid</label>
+			<nail x="-407" y="-340"/>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id6"/>
+			<label kind="select" x="-399" y="-281">Invalid</label>
+			<nail x="-373" y="-306"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id6"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id27"/>
+			<label kind="select" x="-475" y="-272">set amount</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="select" x="-526" y="-230">return</label>
+			<nail x="-501" y="-213"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="select" x="-577" y="-187">query</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id0"/>
+			<label kind="select" x="-654" y="-187">Log out</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id4"/>
+			<label kind="select" x="-662" y="-119">Successful login</label>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id3"/>
+			<label kind="select" x="-798" y="-43">Unsuccessful login</label>
+			<nail x="-679" y="-43"/>
+			<nail x="-739" y="-43"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id28"/>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id3"/>
+			<label kind="select" x="-730" y="-144">Valid</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id0"/>
+			<label kind="select" x="-696" y="-221">Invalid</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id29"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="select" x="-773" y="-272">Real card</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="select" x="-773" y="-365">Fake card</label>
+			<nail x="-662" y="-340"/>
+			<nail x="-807" y="-340"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process = Template();
+// List one or more processes to be composed into a system.
+system Process;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.</declaration>
+	<template>
+		<name x="5" y="5">CustomerApp</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-382" y="-119">
+			<name x="-442" y="-153">Start page</name>
+		</location>
+		<location id="id1" x="-298" y="-119">
+			<name x="-341" y="-144">Login</name>
+		</location>
+		<location id="id2" x="-145" y="-119">
+		</location>
+		<location id="id3" x="34" y="-119">
+			<name x="-51" y="-144">Change PIN</name>
+		</location>
+		<location id="id4" x="144" y="-119">
+		</location>
+		<location id="id5" x="280" y="-119">
+		</location>
+		<location id="id6" x="144" y="-43">
+		</location>
+		<location id="id7" x="-143" y="42">
+			<name x="-220" y="25">Transfer</name>
+		</location>
+		<location id="id8" x="-33" y="42">
+		</location>
+		<location id="id9" x="-33" y="110">
+		</location>
+		<location id="id10" x="60" y="42">
+		</location>
+		<location id="id11" x="-144" y="110">
+		</location>
+		<location id="id12" x="-145" y="-220">
+			<name x="-196" y="-254">(Un)/Freeze</name>
+		</location>
+		<location id="id13" x="-59" y="-221">
+			<name x="-76" y="-255">Query</name>
+		</location>
+		<location id="id14" x="-381" y="-53">
+			<name x="-423" y="-44">Close app</name>
+		</location>
+		<branchpoint id="id15" x="-67" y="110">
+		</branchpoint>
+		<branchpoint id="id16" x="60" y="110">
+		</branchpoint>
+		<branchpoint id="id17" x="34" y="-43">
+		</branchpoint>
+		<branchpoint id="id18" x="280" y="-43">
+		</branchpoint>
+		<branchpoint id="id19" x="-238" y="-119">
+		</branchpoint>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="select" x="-246" y="-178">Log out</label>
+			<nail x="-221" y="-204"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id2"/>
+			<label kind="select" x="-272" y="-144">Successful login</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id14"/>
+			<label kind="select" x="-423" y="-95">return</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id7"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="select" x="-102" y="17">account</label>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id2"/>
+			<label kind="select" x="-68" y="-204">return</label>
+			<nail x="-17" y="-221"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id13"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id2"/>
+			<nail x="-102" y="-220"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id12"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id7"/>
+			<label kind="select" x="-93" y="76">Invalid account</label>
+		</transition>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id11"/>
+			<label kind="select" x="-135" y="110">Valid account</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id15"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id8"/>
+			<label kind="select" x="-17" y="68">Invalid value</label>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id9"/>
+			<label kind="select" x="-16" y="110">Valid value</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id16"/>
+			<label kind="select" x="68" y="68">submit</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="select" x="-8" y="42">Value</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id2"/>
+			<label kind="select" x="-110" y="-42">return</label>
+			<nail x="-102" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id7"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="select" x="43" y="-178">return</label>
+			<nail x="34" y="-170"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id3"/>
+			<label kind="select" x="-34" y="-85">Valid PIN</label>
+			<nail x="-17" y="-43"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id17"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id6"/>
+			<label kind="select" x="187" y="-43">Identical</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id3"/>
+			<label kind="select" x="42" y="-85">Invalid PIN</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id3"/>
+			<label kind="select" x="170" y="-93">Not identical</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id18"/>
+			<label kind="select" x="289" y="-93">submit</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="select" x="161" y="-136">Confirm new PIN</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="select" x="51" y="-136">Set new PIN</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id1"/>
+			<label kind="select" x="-357" y="-68">Unsuccessful login</label>
+			<nail x="-238" y="-68"/>
+			<nail x="-298" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id19"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Process = Template();
+// List one or more processes to be composed into a system.
+system Process;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

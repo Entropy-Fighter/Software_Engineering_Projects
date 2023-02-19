@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.</declaration>
+	<template>
+		<name x="5" y="5">Game</name>
+		<declaration>// Place local declarations here.
+int Playing=0;
+int win=0;
+int turn=0;
+void Start()
+{
+    Playing=1;
+    turn=1;
+    win=0;
+}
+
+void RedMove()
+{
+    if(turn==1){
+        turn=2;
+    }
+}
+
+void BlackMove()
+{
+    if(turn==2){
+        turn=1;
+    }
+}
+
+void DrawAccept()
+{
+    win=3;
+}
+void Surrender()
+{
+    if(turn==1){
+        win=2;
+    }
+    if(turn==2){
+        win=1;
+    }
+}
+
+void EatKing()
+{
+    if(turn==1){
+        win=1;
+    }
+    if(turn==2){
+        win=2;
+    }
+}
+void End()
+{
+    Playing=0;
+    win=0;
+    turn=0;
+}</declaration>
+		<location id="id0" x="0" y="0">
+			<name x="-42" y="-34">GameNotStarted</name>
+		</location>
+		<location id="id1" x="153" y="0">
+			<name x="127" y="-34">RedTurn</name>
+			<urgent/>
+		</location>
+		<location id="id2" x="323" y="0">
+			<name x="297" y="-33">BlackTurn</name>
+			<urgent/>
+		</location>
+		<location id="id3" x="238" y="59">
+			<name x="228" y="25">Judge1</name>
+		</location>
+		<location id="id4" x="238" y="-68">
+			<name x="228" y="-102">Judge2</name>
+		</location>
+		<location id="id5" x="153" y="255">
+			<name x="143" y="221">RedWin</name>
+			<urgent/>
+		</location>
+		<location id="id6" x="246" y="255">
+			<name x="236" y="221">Draw</name>
+			<urgent/>
+		</location>
+		<location id="id7" x="340" y="255">
+			<name x="330" y="221">BlackWin</name>
+			<urgent/>
+		</location>
+		<location id="id8" x="246" y="365">
+			<name x="236" y="331">GameEnd</name>
+			<urgent/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="10" y="365">End()</label>
+			<nail x="-8" y="365"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id8"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id8"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="297" y="-136">Surrender()</label>
+			<nail x="280" y="-136"/>
+			<nail x="501" y="-136"/>
+			<nail x="510" y="331"/>
+			<nail x="144" y="331"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="297" y="-110">DrawAccept()</label>
+			<nail x="272" y="-110"/>
+			<nail x="467" y="-110"/>
+			<nail x="476" y="280"/>
+			<nail x="255" y="280"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="331" y="-68">EatKing()</label>
+			<nail x="433" y="-68"/>
+			<nail x="442" y="255"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id7"/>
+			<label kind="assignment" x="289" y="170">Surrender()</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id6"/>
+			<label kind="assignment" x="204" y="161">DrawAccept()</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="assignment" x="144" y="161">EatKing()</label>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="136" y="-68">BlackMove()</label>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id4"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="289" y="25">RedMove()</label>
+			<nail x="306" y="17"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="18" y="0">Start()</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+game = Game();
+// List one or more processes to be composed into a system.
+system game;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] game.turn==0 imply game.turn==0 and game.Playing==0</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] game.Playing==1 imply game.turn!=0</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] game.Playing==0 imply game.win==0 and game.turn==0</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==3 and game.turn==2 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==2 and game.turn==2 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==1 and game.turn==2 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==3 and game.turn==1 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==2 and game.turn==1 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==1 and game.turn==1 and game.Playing==1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; game.win==0 and game.turn==0 and game.Playing==0</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

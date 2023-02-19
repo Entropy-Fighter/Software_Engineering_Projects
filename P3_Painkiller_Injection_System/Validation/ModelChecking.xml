@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+broadcast chan SwitchOn, SwitchOff, GiveBolus;
+clock x;
+const int baseline = 1;
+const int bolus = 20;
+
+const int N=1441;
+int time[1441];
+
+
+
+int hour_injected = 0;
+int day_injected = 0;
+
+</declaration>
+	<template>
+		<name x="5" y="5">Controller</name>
+		<declaration>
+clock t1;
+int t = 0;
+int hour_p;
+int day_p;
+
+int i;
+
+void auto_inject()
+{
+    hour_injected += baseline;
+    day_injected += baseline;
+    time[t]+= baseline;
+}
+
+void inject_bolus()
+{
+    hour_injected += bolus;
+    day_injected += bolus;
+    time[t]+=bolus;
+}
+
+bool check_amount(int amount)
+{
+    if ((hour_injected + amount)&gt;100)
+        return false;
+    if ((day_injected + amount)&gt;300)
+        return false;
+
+    return true;
+
+}
+
+void clear()
+{
+    day_injected=0;
+    hour_injected=0;
+    for(i=0;i&lt;N;i++){
+        time[i]=0;
+    }
+  
+}
+
+void time_pass()
+{
+
+    t = t+1;
+
+    if (day_injected == 300)
+    {
+        day_p = t - 1440;
+        if(day_p&gt;=0){
+            day_injected -= time[day_p];
+            time[day_p] = 0;
+        }else{
+            day_p = 0;
+            day_injected -= time[day_p];
+            time[day_p] = 0;
+        }
+        return;
+    }
+    
+    if (hour_injected == 100)
+    {
+        hour_p = t - 60;
+        if(hour_p&gt;=0){
+            hour_injected -= time[hour_p];
+            time[hour_p] = 0;
+        }else{
+            hour_p = 0;
+            hour_injected -= time[hour_p];
+            time[hour_p] = 0;
+        }
+        
+        return;
+    }
+    
+    if(t&gt;=1440){
+        clear();
+
+ 
+    }
+}
+</declaration>
+		<location id="id0" x="-773" y="-476">
+			<name x="-807" y="-484">Off</name>
+		</location>
+		<location id="id1" x="-501" y="-476">
+			<name x="-510" y="-510">On</name>
+			<label kind="invariant" x="-510" y="-527">t1&lt;=1</label>
+		</location>
+		<location id="id2" x="-178" y="-476">
+			<name x="-188" y="-510">Bolus</name>
+			<urgent/>
+		</location>
+		<location id="id3" x="-501" y="-170">
+			<name x="-527" y="-213">TimePass</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-493" y="-331">check_amount(baseline) == 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-459" y="-263">check_amount(baseline)</label>
+			<label kind="assignment" x="-450" y="-382">auto_inject(),t1=0</label>
+			<nail x="-433" y="-331"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-560" y="-433">t1&gt;=1</label>
+			<label kind="assignment" x="-637" y="-382">time_pass()</label>
+			<nail x="-578" y="-323"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-671" y="-544">SwitchOff?</label>
+			<nail x="-646" y="-518"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-382" y="-535">inject_bolus()</label>
+			<nail x="-348" y="-519"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-306" y="-450">check_amount(bolus)</label>
+			<label kind="synchronisation" x="-433" y="-450">GiveBolus?</label>
+			<nail x="-340" y="-442"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-680" y="-442">SwitchOn?</label>
+			<label kind="assignment" x="-586" y="-459">t1=0</label>
+			<nail x="-646" y="-442"/>
+		</transition>
+	</template>
+	<template>
+		<name>Switch</name>
+		<location id="id4" x="-297" y="8">
+			<name x="-307" y="-26">Off</name>
+		</location>
+		<location id="id5" x="272" y="8">
+			<name x="262" y="-26">On</name>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-42" y="-68">SwitchOff!</label>
+			<nail x="-8" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-34" y="59">SwitchOn!</label>
+			<nail x="-8" y="59"/>
+		</transition>
+	</template>
+	<template>
+		<name>InjectBolusButton</name>
+		<location id="id6" x="-323" y="-68">
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-365" y="-212">GiveBolus!</label>
+			<nail x="-433" y="-187"/>
+			<nail x="-238" y="-187"/>
+		</transition>
+	</template>
+	<system>
+controler = Controller();
+switchbutton=Switch();
+
+inject_bolus_button=InjectBolusButton();
+
+system controler,switchbutton,inject_bolus_button;
+    </system>
+	<queries>
+		<query>
+			<formula>A&lt;&gt; baseline&gt;=1 and baseline&lt;=10</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; bolus&gt;=20 and bolus&lt;=50
+</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; hour_injected&lt;=100</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt; day_injected&lt;=300</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
